@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma"
+import { SignOutButton } from "@clerk/nextjs"
 
 type PageProps = {
   params: {
@@ -16,12 +17,12 @@ export default async function UserPage({params} : PageProps) {
     }
   })
 
-  console.log(workspace)
 
   return (
-    <div>
+    <main className="flex flex-col gap-2 items-center justify-center h-screen">
       <h1>User ID: {userId}</h1>
-      Hey {workspace ?.name}
-    </div>
+      <h1>Welcome to {workspace?.name}</h1>
+      <SignOutButton/>
+    </main>
   )
 }
