@@ -156,16 +156,21 @@ const data = {
   ],
 };
 
-type User = {
-  preferredName: string | null
+type Workspace = {
+  name: string
+  id: string
+}
+
+type DBUser = {
+  preferredName: string | null,
   email: string
 }
 
-export function AppSidebar({user} : {user: User}) {
+export function AppSidebar({workspace,user} : {workspace: Workspace, user: DBUser}) {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <NavUser user={user} />
+        <NavUser workspace={workspace} user={user}/>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />

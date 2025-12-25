@@ -6,6 +6,7 @@ import {
   ChevronsUpDown,
   CreditCard,
   LogOut,
+  Settings,
   Sparkles,
 } from "lucide-react"
 
@@ -30,14 +31,22 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { SignOutButton } from "@clerk/nextjs"
+import { SettingsDialog } from "./settings/SettingsDialog"
+
+type DBUser = {
+  preferredName: string | null,
+  email: string
+}
 
 export function NavUser({
-  user,
+  workspace,
+  user
 }: {
-  user: {
-    preferredName: string | null
-    email: string
-  }
+  workspace: {
+    name: string,
+    id: string
+  },
+  user: DBUser
 }) {
   const { isMobile } = useSidebar()
 
@@ -50,13 +59,13 @@ export function NavUser({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
+              <Avatar className="h-8 w-8 rounded-md">
                 {/* <AvatarImage src={user.avatar} alt={user.name} /> */}
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-md text-lg">{workspace.name[0]}</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.preferredName}</span>
-                <span className="truncate text-xs">{user.email}</span>
+                <span className="truncate font-medium">{workspace.name}</span>
+                {/* <span className="truncate text-xs">{workspace.id}</span> */}
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -71,20 +80,25 @@ export function NavUser({
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   {/* <AvatarImage src={user.avatar} alt={user.name} /> */}
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">{workspace.name[0]}</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.preferredName}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  <span className="truncate font-medium">{workspace.name}</span>
+                  {/* <span className="truncate text-xs">{workspace.id}</span> */}
                 </div>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
+
+              {/* Settings Button - Dialog*/}
+              <DropdownMenuItem onSelect={(e) => e.preventDefault()} asChild>
+                <div>
+                <Settings />
+                <SettingsDialog user={user}/>
+                </div>
               </DropdownMenuItem>
+
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>

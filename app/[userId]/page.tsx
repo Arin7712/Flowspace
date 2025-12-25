@@ -21,7 +21,7 @@ type PageProps = {
 };
 export default async function UserPage({ params }: PageProps) {
   const { userId } = await params;
-  const user = await prisma.user.findFirst({
+  const dbUser = await prisma.user.findFirst({
     where: {
       id: userId,
     },
@@ -31,17 +31,23 @@ export default async function UserPage({ params }: PageProps) {
     },
   });
 
+  if(!dbUser) throw new Error("User not found");
+
   const workspace = await prisma.workspace.findFirst({
     where: {
       ownerId: userId,
     },
+    select: {
+      id: true,
+      name: true,
+    }
   });
 
-  if (!user) throw new Error("User not found");
+  if (!workspace) throw new Error("Workspace not found");
 
   return (
     <SidebarProvider>
-      <AppSidebar user={user} />
+      <AppSidebar workspace={workspace} user={dbUser}/>
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
