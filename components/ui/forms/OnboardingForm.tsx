@@ -18,9 +18,10 @@ import { createWorkspace } from "@/lib/actions";
 
 type Props = {
   clerkId: string;
+  userId: string
 };
 
-export function OnboardingForm({ clerkId }: Props) {
+export function OnboardingForm({ clerkId, userId }: Props) {
   const [workspaceName, setWorkspaceName] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,7 +32,7 @@ export function OnboardingForm({ clerkId }: Props) {
       await createWorkspace({ name: workspaceName, clerkId: clerkId });
 
       // Redirect to dashboard after workspace creation
-      window.location.href = "/dashboard";
+      window.location.href = `/${userId}`;
     } catch (error) {
       console.error("Error creating workspace:", error);
       alert("Failed to create workspace. Try again.");

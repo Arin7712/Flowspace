@@ -1,7 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import prisma from "@/lib/prisma";
-import { SignOutButton } from "@clerk/nextjs";
 
 import {
   Breadcrumb,

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   BadgeCheck,
@@ -7,14 +7,9 @@ import {
   CreditCard,
   LogOut,
   Settings,
-  Sparkles,
-} from "lucide-react"
+} from "lucide-react";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,32 +18,35 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
-import { SignOutButton } from "@clerk/nextjs"
-import { SettingsDialog } from "./settings/SettingsDialog"
+} from "@/components/ui/sidebar";
+import { SignOutButton } from "@clerk/nextjs";
+import { SettingsDialog } from "./settings/SettingsDialog";
+import SettingsMobileSheet from "./settings/SettingsMobileSheet";
+import { useState } from "react";
 
 type DBUser = {
-  preferredName: string | null,
-  email: string
-}
+  preferredName: string | null;
+  email: string;
+};
 
 export function NavUser({
   workspace,
-  user
+  user,
 }: {
   workspace: {
-    name: string,
-    id: string
-  },
-  user: DBUser
+    name: string;
+    id: string;
+  };
+  user: DBUser;
 }) {
-  const { isMobile } = useSidebar()
+  const { isMobile } = useSidebar();
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   return (
     <SidebarMenu>
@@ -61,7 +59,9 @@ export function NavUser({
             >
               <Avatar className="h-8 w-8 rounded-md">
                 {/* <AvatarImage src={user.avatar} alt={user.name} /> */}
-                <AvatarFallback className="rounded-md text-lg">{workspace.name[0]}</AvatarFallback>
+                <AvatarFallback className="rounded-md text-lg">
+                  {workspace.name[0]}
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{workspace.name}</span>
@@ -80,7 +80,9 @@ export function NavUser({
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   {/* <AvatarImage src={user.avatar} alt={user.name} /> */}
-                  <AvatarFallback className="rounded-lg">{workspace.name[0]}</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">
+                    {workspace.name[0]}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{workspace.name}</span>
@@ -90,16 +92,39 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-
               {/* Settings Button - Dialog*/}
-              <DropdownMenuItem onSelect={(e) => e.preventDefault()} asChild>
-                <div>
-                <Settings />
-                <SettingsDialog user={user}/>
+              <DropdownMenuItem
+                onSelect={(e) => {
+                  e.preventDefault(); // keep dropdown stable
+                }}
+                className="md:block hidden"
+              >
+                <div className="flex items-center gap-2">
+                  <Settings />
+                  <SettingsDialog user={user} />
                 </div>
               </DropdownMenuItem>
 
+              {/* Settings Button - Sheet (Mobile View)} */}
+              <DropdownMenuItem
+                onSelect={(e) => {
+                  e.preventDefault(); // keep dropdown stable
+                  setSettingsOpen(true);
+                }}
+                className="md:hidden block"
+              >
+                <div className="flex items-center gap-2">
+                  <Settings />
+                  <SettingsMobileSheet
+                    open={settingsOpen}
+                    onOpenChange={setSettingsOpen}
+                    email={user.email}
+                    preferredName={user.preferredName}
+                  />
+                </div>
+              </DropdownMenuItem>
             </DropdownMenuGroup>
+
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
@@ -117,14 +142,14 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <SignOutButton>
-            <DropdownMenuItem>
-              <LogOut />
-              Log out
-            </DropdownMenuItem>
+              <DropdownMenuItem>
+                <LogOut />
+                Log out
+              </DropdownMenuItem>
             </SignOutButton>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }
