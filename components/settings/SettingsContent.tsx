@@ -1,3 +1,4 @@
+import UserSettingsForm from "../forms/UserSettingsForm";
 import { SettingsSection } from "./SettingsContainer";
 
 
@@ -7,14 +8,20 @@ type Props = {
 
 type DBUser = {
   preferredName: string | null,
-  email: string
+  email: string,
+  id: string
 }
 
 
 const SettingsContent = ({ activeSection, user }: {activeSection: SettingsSection, user: DBUser}) => {
   switch (activeSection) {
     case "user":
-      return <>User: {user.preferredName}</>;
+      return (
+      <div>
+      User: {user.preferredName}
+      <UserSettingsForm preferredName={user.preferredName} userId={user.id}/>
+      </div>
+      );
     case "workspace":
       return <>Workspace</>;
     default:

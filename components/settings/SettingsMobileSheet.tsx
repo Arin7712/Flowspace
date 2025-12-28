@@ -13,12 +13,13 @@ type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   preferredName: string | null,
-  email: string
+  email: string,
+  id: string
 };
 
-const SettingsMobileSheet = ({open, onOpenChange, email, preferredName }: Props) => {
+const SettingsMobileSheet = ({open, onOpenChange, email, preferredName, id }: Props) => {
 
-  const user = {email, preferredName};
+  const user = {email, preferredName, id};
 
   return (
     <div>

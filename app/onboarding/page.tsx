@@ -1,6 +1,6 @@
 "use server";
 
-import {OnboardingForm} from '@/components/ui/forms/OnboardingForm'
+import {OnboardingForm} from '@/components/forms/OnboardingForm'
 import prisma from '@/lib/prisma';
 import { currentUser } from '@clerk/nextjs/server';
 

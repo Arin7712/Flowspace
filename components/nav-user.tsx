@@ -31,6 +31,7 @@ import SettingsMobileSheet from "./settings/SettingsMobileSheet";
 import { useState } from "react";
 
 type DBUser = {
+  id: string
   preferredName: string | null;
   email: string;
 };
@@ -120,6 +121,7 @@ export function NavUser({
                     onOpenChange={setSettingsOpen}
                     email={user.email}
                     preferredName={user.preferredName}
+                    id={user.id}
                   />
                 </div>
               </DropdownMenuItem>

@@ -27,6 +27,7 @@ export default async function UserPage({ params }: PageProps) {
     select: {
       preferredName: true,
       email: true,
+      id: true
     },
   });
 

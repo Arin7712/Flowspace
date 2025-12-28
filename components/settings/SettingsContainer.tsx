@@ -12,7 +12,8 @@ export type SettingsSection =
 
   type DBUser = {
   preferredName: string | null,
-  email: string
+  email: string,
+  id: string
 }
 
 const SettingsContainer = ({user}: {user: DBUser}) => {

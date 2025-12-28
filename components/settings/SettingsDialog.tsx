@@ -18,10 +18,12 @@ import prisma from "@/lib/prisma";
 
 type DBUser = {
   preferredName: string | null,
-  email: string
+  email: string,
+  id: string
 }
 
 export function SettingsDialog({user}: {user: DBUser}) {
+
 
   return (
     <Dialog>

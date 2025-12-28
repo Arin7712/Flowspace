@@ -163,7 +163,8 @@ type Workspace = {
 
 type DBUser = {
   preferredName: string | null,
-  email: string
+  email: string,
+  id: string
 }
 
 export function AppSidebar({workspace,user} : {workspace: Workspace, user: DBUser}) {
