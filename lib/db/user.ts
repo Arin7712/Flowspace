@@ -1,5 +1,7 @@
 "use server";
 import prisma from "../prisma";
+import { io } from "../socket";
+
 
 type EnsureUserProps = {
   clerkId: string;
@@ -15,9 +17,7 @@ export async function ensureUser({
   try {
     const user = await prisma.user.upsert({
       where: { clerkId },
-      update: {
-        preferredName,
-      },
+      update: {},
       create: {
         clerkId,
         preferredName,
@@ -40,6 +40,13 @@ export async function UpdatePreferredName({userId, updatedName} : {userId: strin
       where: {id: userId},
       data: {preferredName: updatedName}
     })
+
+await fetch("http://localhost:4000/emit-name-update", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId, preferredName: updatedName }),
+    });
+
     console.log("User successfully updated.");
     return user;
   } catch (error) {

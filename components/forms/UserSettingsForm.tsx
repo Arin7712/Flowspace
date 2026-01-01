@@ -1,6 +1,9 @@
 import {useForm, SubmitHandler} from 'react-hook-form';
 import { Label } from '../ui/label';
 import { UpdatePreferredName } from '@/lib/db/user';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { Field, FieldGroup } from '../ui/field';
 
 type Inputs = {
     preferredName: string | null,
@@ -23,13 +26,15 @@ const onSubmit: SubmitHandler<Inputs> = async (data) => {
   return (
      <form onSubmit={handleSubmit(onSubmit)}>
       {/* register your input into the hook by invoking the "register" function */}
+      <Field>
       <Label>PreferredName</Label>
-      <input defaultValue={preferredName || ''} placeholder='Your preferredName' {...register("preferredName")} />
+      <Input defaultValue={preferredName || ''} placeholder='Your preferredName' {...register("preferredName")} />
+      </Field>
 
       {/* include validation with required or other standard HTML validation rules */}
       {/* errors will return when field validation fails  */}
 
-      <button type="submit">Submit</button>
+      <Button type="submit">Submit</Button>
     </form>
   )
 }

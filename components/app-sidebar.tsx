@@ -25,6 +25,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { io } from "socket.io-client";
 
 // This is sample data.
 const data = {
@@ -167,7 +168,27 @@ type DBUser = {
   id: string
 }
 
-export function AppSidebar({workspace,user} : {workspace: Workspace, user: DBUser}) {
+export function AppSidebar({workspace,initialUser} : {workspace: Workspace, initialUser: DBUser}) {
+
+
+  const [user, setUser] = React.useState(initialUser);
+
+React.useEffect(() => {
+  const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL!, {
+    auth: { userId: user.id },
+  });
+
+  // Example: listen for events
+  socket.on("preferred_name_updated", (data) => {
+    setUser((prev:any) => ({ ...prev, preferredName: data.preferredName }));
+  });
+
+  // Cleanup function
+  return () => {
+    socket.disconnect(); // ⚡ only cleanup here
+  };
+}, [user.id]); // or [] if userId never changes
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
